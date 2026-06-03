@@ -9,38 +9,293 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SettlementsRouteImport } from './routes/settlements'
+import { Route as ReportsRouteImport } from './routes/reports'
+import { Route as RefundsRouteImport } from './routes/refunds'
+import { Route as PaymentsRouteImport } from './routes/payments'
+import { Route as MyServicesRouteImport } from './routes/my-services'
+import { Route as DisputesRouteImport } from './routes/disputes'
+import { Route as DeveloperSettingsRouteImport } from './routes/developer-settings'
+import { Route as BankDowntimesRouteImport } from './routes/bank-downtimes'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AcceptPaymentsRouteImport } from './routes/accept-payments'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as SettlementsIdRouteImport } from './routes/settlements.$id'
+import { Route as SettingsUsersRouteImport } from './routes/settings.users'
+import { Route as SettingsProfileRouteImport } from './routes/settings.profile'
+import { Route as SettingsDashboardRouteImport } from './routes/settings.dashboard'
 
+const SettlementsRoute = SettlementsRouteImport.update({
+  id: '/settlements',
+  path: '/settlements',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefundsRoute = RefundsRouteImport.update({
+  id: '/refunds',
+  path: '/refunds',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaymentsRoute = PaymentsRouteImport.update({
+  id: '/payments',
+  path: '/payments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MyServicesRoute = MyServicesRouteImport.update({
+  id: '/my-services',
+  path: '/my-services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DisputesRoute = DisputesRouteImport.update({
+  id: '/disputes',
+  path: '/disputes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DeveloperSettingsRoute = DeveloperSettingsRouteImport.update({
+  id: '/developer-settings',
+  path: '/developer-settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BankDowntimesRoute = BankDowntimesRouteImport.update({
+  id: '/bank-downtimes',
+  path: '/bank-downtimes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AcceptPaymentsRoute = AcceptPaymentsRouteImport.update({
+  id: '/accept-payments',
+  path: '/accept-payments',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettlementsIdRoute = SettlementsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => SettlementsRoute,
+} as any)
+const SettingsUsersRoute = SettingsUsersRouteImport.update({
+  id: '/settings/users',
+  path: '/settings/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsProfileRoute = SettingsProfileRouteImport.update({
+  id: '/settings/profile',
+  path: '/settings/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsDashboardRoute = SettingsDashboardRouteImport.update({
+  id: '/settings/dashboard',
+  path: '/settings/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/accept-payments': typeof AcceptPaymentsRoute
+  '/admin': typeof AdminRoute
+  '/bank-downtimes': typeof BankDowntimesRoute
+  '/developer-settings': typeof DeveloperSettingsRoute
+  '/disputes': typeof DisputesRoute
+  '/my-services': typeof MyServicesRoute
+  '/payments': typeof PaymentsRoute
+  '/refunds': typeof RefundsRoute
+  '/reports': typeof ReportsRoute
+  '/settlements': typeof SettlementsRouteWithChildren
+  '/settings/dashboard': typeof SettingsDashboardRoute
+  '/settings/profile': typeof SettingsProfileRoute
+  '/settings/users': typeof SettingsUsersRoute
+  '/settlements/$id': typeof SettlementsIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/accept-payments': typeof AcceptPaymentsRoute
+  '/admin': typeof AdminRoute
+  '/bank-downtimes': typeof BankDowntimesRoute
+  '/developer-settings': typeof DeveloperSettingsRoute
+  '/disputes': typeof DisputesRoute
+  '/my-services': typeof MyServicesRoute
+  '/payments': typeof PaymentsRoute
+  '/refunds': typeof RefundsRoute
+  '/reports': typeof ReportsRoute
+  '/settlements': typeof SettlementsRouteWithChildren
+  '/settings/dashboard': typeof SettingsDashboardRoute
+  '/settings/profile': typeof SettingsProfileRoute
+  '/settings/users': typeof SettingsUsersRoute
+  '/settlements/$id': typeof SettlementsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/accept-payments': typeof AcceptPaymentsRoute
+  '/admin': typeof AdminRoute
+  '/bank-downtimes': typeof BankDowntimesRoute
+  '/developer-settings': typeof DeveloperSettingsRoute
+  '/disputes': typeof DisputesRoute
+  '/my-services': typeof MyServicesRoute
+  '/payments': typeof PaymentsRoute
+  '/refunds': typeof RefundsRoute
+  '/reports': typeof ReportsRoute
+  '/settlements': typeof SettlementsRouteWithChildren
+  '/settings/dashboard': typeof SettingsDashboardRoute
+  '/settings/profile': typeof SettingsProfileRoute
+  '/settings/users': typeof SettingsUsersRoute
+  '/settlements/$id': typeof SettlementsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/accept-payments'
+    | '/admin'
+    | '/bank-downtimes'
+    | '/developer-settings'
+    | '/disputes'
+    | '/my-services'
+    | '/payments'
+    | '/refunds'
+    | '/reports'
+    | '/settlements'
+    | '/settings/dashboard'
+    | '/settings/profile'
+    | '/settings/users'
+    | '/settlements/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/accept-payments'
+    | '/admin'
+    | '/bank-downtimes'
+    | '/developer-settings'
+    | '/disputes'
+    | '/my-services'
+    | '/payments'
+    | '/refunds'
+    | '/reports'
+    | '/settlements'
+    | '/settings/dashboard'
+    | '/settings/profile'
+    | '/settings/users'
+    | '/settlements/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/accept-payments'
+    | '/admin'
+    | '/bank-downtimes'
+    | '/developer-settings'
+    | '/disputes'
+    | '/my-services'
+    | '/payments'
+    | '/refunds'
+    | '/reports'
+    | '/settlements'
+    | '/settings/dashboard'
+    | '/settings/profile'
+    | '/settings/users'
+    | '/settlements/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AcceptPaymentsRoute: typeof AcceptPaymentsRoute
+  AdminRoute: typeof AdminRoute
+  BankDowntimesRoute: typeof BankDowntimesRoute
+  DeveloperSettingsRoute: typeof DeveloperSettingsRoute
+  DisputesRoute: typeof DisputesRoute
+  MyServicesRoute: typeof MyServicesRoute
+  PaymentsRoute: typeof PaymentsRoute
+  RefundsRoute: typeof RefundsRoute
+  ReportsRoute: typeof ReportsRoute
+  SettlementsRoute: typeof SettlementsRouteWithChildren
+  SettingsDashboardRoute: typeof SettingsDashboardRoute
+  SettingsProfileRoute: typeof SettingsProfileRoute
+  SettingsUsersRoute: typeof SettingsUsersRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/settlements': {
+      id: '/settlements'
+      path: '/settlements'
+      fullPath: '/settlements'
+      preLoaderRoute: typeof SettlementsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/refunds': {
+      id: '/refunds'
+      path: '/refunds'
+      fullPath: '/refunds'
+      preLoaderRoute: typeof RefundsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/payments': {
+      id: '/payments'
+      path: '/payments'
+      fullPath: '/payments'
+      preLoaderRoute: typeof PaymentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/my-services': {
+      id: '/my-services'
+      path: '/my-services'
+      fullPath: '/my-services'
+      preLoaderRoute: typeof MyServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/disputes': {
+      id: '/disputes'
+      path: '/disputes'
+      fullPath: '/disputes'
+      preLoaderRoute: typeof DisputesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/developer-settings': {
+      id: '/developer-settings'
+      path: '/developer-settings'
+      fullPath: '/developer-settings'
+      preLoaderRoute: typeof DeveloperSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bank-downtimes': {
+      id: '/bank-downtimes'
+      path: '/bank-downtimes'
+      fullPath: '/bank-downtimes'
+      preLoaderRoute: typeof BankDowntimesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/accept-payments': {
+      id: '/accept-payments'
+      path: '/accept-payments'
+      fullPath: '/accept-payments'
+      preLoaderRoute: typeof AcceptPaymentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +303,65 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settlements/$id': {
+      id: '/settlements/$id'
+      path: '/$id'
+      fullPath: '/settlements/$id'
+      preLoaderRoute: typeof SettlementsIdRouteImport
+      parentRoute: typeof SettlementsRoute
+    }
+    '/settings/users': {
+      id: '/settings/users'
+      path: '/settings/users'
+      fullPath: '/settings/users'
+      preLoaderRoute: typeof SettingsUsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/profile': {
+      id: '/settings/profile'
+      path: '/settings/profile'
+      fullPath: '/settings/profile'
+      preLoaderRoute: typeof SettingsProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings/dashboard': {
+      id: '/settings/dashboard'
+      path: '/settings/dashboard'
+      fullPath: '/settings/dashboard'
+      preLoaderRoute: typeof SettingsDashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
+interface SettlementsRouteChildren {
+  SettlementsIdRoute: typeof SettlementsIdRoute
+}
+
+const SettlementsRouteChildren: SettlementsRouteChildren = {
+  SettlementsIdRoute: SettlementsIdRoute,
+}
+
+const SettlementsRouteWithChildren = SettlementsRoute._addFileChildren(
+  SettlementsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AcceptPaymentsRoute: AcceptPaymentsRoute,
+  AdminRoute: AdminRoute,
+  BankDowntimesRoute: BankDowntimesRoute,
+  DeveloperSettingsRoute: DeveloperSettingsRoute,
+  DisputesRoute: DisputesRoute,
+  MyServicesRoute: MyServicesRoute,
+  PaymentsRoute: PaymentsRoute,
+  RefundsRoute: RefundsRoute,
+  ReportsRoute: ReportsRoute,
+  SettlementsRoute: SettlementsRouteWithChildren,
+  SettingsDashboardRoute: SettingsDashboardRoute,
+  SettingsProfileRoute: SettingsProfileRoute,
+  SettingsUsersRoute: SettingsUsersRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
