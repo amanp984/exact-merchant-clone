@@ -180,14 +180,14 @@ export function fmtTime(iso: string) {
   return new Date(iso).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" });
 }
 
-export function downloadCSV(filename: string, rows: Record<string, unknown>[]) {
+export function downloadCSV(filename: string, rows: readonly Record<string, unknown>[] | readonly object[]) {
   if (!rows.length) return;
-  const headers = Object.keys(rows[0]);
+  const headers = Object.keys(rows[0] as object);
   const csv = [
     headers.join(","),
     ...rows.map((r) =>
       headers.map((h) => {
-        const v = String(r[h] ?? "").replace(/"/g, '""');
+        const v = String((r as Record<string, unknown>)[h] ?? "").replace(/"/g, '""');
         return /[",\n]/.test(v) ? `"${v}"` : v;
       }).join(",")
     ),

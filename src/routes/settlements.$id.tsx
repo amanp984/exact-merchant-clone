@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SETTLEMENTS, PAYMENTS, fmtDate, fmtTime, inr } from "@/lib/data/mock";
@@ -12,7 +12,7 @@ export const Route = createFileRoute("/settlements/$id")({
 function SettlementDetail() {
   const { id } = Route.useParams();
   const s = SETTLEMENTS.find((x) => x.id === id);
-  if (!s) throw notFound();
+  if (!s) return <div>Settlement not found.</div>;
   const txns = PAYMENTS.filter((p) => p.status === "Success").slice(0, s.payments);
 
   return (
@@ -61,5 +61,3 @@ function Stat({ label, value, highlight }: { label: string; value: string; highl
   );
 }
 
-// notFound helper missing in older versions; fallback
-function notFound(): never { throw new Error("Not found"); }
