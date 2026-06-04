@@ -26,6 +26,7 @@ import { Route as SettlementsIdRouteImport } from './routes/settlements.$id'
 import { Route as SettingsUsersRouteImport } from './routes/settings.users'
 import { Route as SettingsProfileRouteImport } from './routes/settings.profile'
 import { Route as SettingsDashboardRouteImport } from './routes/settings.dashboard'
+import { Route as SettingsDashboardNotificationsRouteImport } from './routes/settings.dashboard.notifications'
 
 const SettlementsRoute = SettlementsRouteImport.update({
   id: '/settlements',
@@ -112,6 +113,12 @@ const SettingsDashboardRoute = SettingsDashboardRouteImport.update({
   path: '/settings/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsDashboardNotificationsRoute =
+  SettingsDashboardNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => SettingsDashboardRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -127,10 +134,11 @@ export interface FileRoutesByFullPath {
   '/refunds': typeof RefundsRoute
   '/reports': typeof ReportsRoute
   '/settlements': typeof SettlementsRouteWithChildren
-  '/settings/dashboard': typeof SettingsDashboardRoute
+  '/settings/dashboard': typeof SettingsDashboardRouteWithChildren
   '/settings/profile': typeof SettingsProfileRoute
   '/settings/users': typeof SettingsUsersRoute
   '/settlements/$id': typeof SettlementsIdRoute
+  '/settings/dashboard/notifications': typeof SettingsDashboardNotificationsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -146,10 +154,11 @@ export interface FileRoutesByTo {
   '/refunds': typeof RefundsRoute
   '/reports': typeof ReportsRoute
   '/settlements': typeof SettlementsRouteWithChildren
-  '/settings/dashboard': typeof SettingsDashboardRoute
+  '/settings/dashboard': typeof SettingsDashboardRouteWithChildren
   '/settings/profile': typeof SettingsProfileRoute
   '/settings/users': typeof SettingsUsersRoute
   '/settlements/$id': typeof SettlementsIdRoute
+  '/settings/dashboard/notifications': typeof SettingsDashboardNotificationsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -166,10 +175,11 @@ export interface FileRoutesById {
   '/refunds': typeof RefundsRoute
   '/reports': typeof ReportsRoute
   '/settlements': typeof SettlementsRouteWithChildren
-  '/settings/dashboard': typeof SettingsDashboardRoute
+  '/settings/dashboard': typeof SettingsDashboardRouteWithChildren
   '/settings/profile': typeof SettingsProfileRoute
   '/settings/users': typeof SettingsUsersRoute
   '/settlements/$id': typeof SettlementsIdRoute
+  '/settings/dashboard/notifications': typeof SettingsDashboardNotificationsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -191,6 +201,7 @@ export interface FileRouteTypes {
     | '/settings/profile'
     | '/settings/users'
     | '/settlements/$id'
+    | '/settings/dashboard/notifications'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -210,6 +221,7 @@ export interface FileRouteTypes {
     | '/settings/profile'
     | '/settings/users'
     | '/settlements/$id'
+    | '/settings/dashboard/notifications'
   id:
     | '__root__'
     | '/'
@@ -229,6 +241,7 @@ export interface FileRouteTypes {
     | '/settings/profile'
     | '/settings/users'
     | '/settlements/$id'
+    | '/settings/dashboard/notifications'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -245,7 +258,7 @@ export interface RootRouteChildren {
   RefundsRoute: typeof RefundsRoute
   ReportsRoute: typeof ReportsRoute
   SettlementsRoute: typeof SettlementsRouteWithChildren
-  SettingsDashboardRoute: typeof SettingsDashboardRoute
+  SettingsDashboardRoute: typeof SettingsDashboardRouteWithChildren
   SettingsProfileRoute: typeof SettingsProfileRoute
   SettingsUsersRoute: typeof SettingsUsersRoute
 }
@@ -371,6 +384,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings/dashboard/notifications': {
+      id: '/settings/dashboard/notifications'
+      path: '/notifications'
+      fullPath: '/settings/dashboard/notifications'
+      preLoaderRoute: typeof SettingsDashboardNotificationsRouteImport
+      parentRoute: typeof SettingsDashboardRoute
+    }
   }
 }
 
@@ -386,6 +406,17 @@ const SettlementsRouteWithChildren = SettlementsRoute._addFileChildren(
   SettlementsRouteChildren,
 )
 
+interface SettingsDashboardRouteChildren {
+  SettingsDashboardNotificationsRoute: typeof SettingsDashboardNotificationsRoute
+}
+
+const SettingsDashboardRouteChildren: SettingsDashboardRouteChildren = {
+  SettingsDashboardNotificationsRoute: SettingsDashboardNotificationsRoute,
+}
+
+const SettingsDashboardRouteWithChildren =
+  SettingsDashboardRoute._addFileChildren(SettingsDashboardRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AcceptPaymentsRoute: AcceptPaymentsRoute,
@@ -400,7 +431,7 @@ const rootRouteChildren: RootRouteChildren = {
   RefundsRoute: RefundsRoute,
   ReportsRoute: ReportsRoute,
   SettlementsRoute: SettlementsRouteWithChildren,
-  SettingsDashboardRoute: SettingsDashboardRoute,
+  SettingsDashboardRoute: SettingsDashboardRouteWithChildren,
   SettingsProfileRoute: SettingsProfileRoute,
   SettingsUsersRoute: SettingsUsersRoute,
 }
