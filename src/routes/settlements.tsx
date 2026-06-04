@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ChevronRight, CheckCircle2 } from "lucide-react";
+import { ChevronRight, CheckCircle2, FileCheck2 } from "lucide-react";
 import { PageHeader } from "@/components/dashboard/PageHeader";
 import { FilterBar, FilterField } from "@/components/dashboard/FilterBar";
 import { SETTLEMENTS, fmtTime, fmtDate, inr, downloadCSV } from "@/lib/data/mock";
@@ -33,10 +33,10 @@ function SettlementsPage() {
       <FilterBar
         search={search}
         onSearch={setSearch}
-        searchPlaceholder="Search UTR"
+        searchPlaceholder="Enter Search Value"
         onDownload={() => downloadCSV("settlements.csv", rows)}
       >
-        <FilterField label="Duration"><Select value="Today, 3 Jun" options={["Today, 3 Jun", "Last 7 Days", "This Month"]} /></FilterField>
+        <FilterField label="Duration"><Select value="Today, 4 Jun" options={["Today, 4 Jun", "Last 7 Days", "This Month"]} /></FilterField>
       </FilterBar>
 
       <div className="grid grid-cols-[1fr_1fr_1fr_1fr_1fr] text-[11px] uppercase tracking-wider text-muted-foreground font-semibold border-b border-border pb-3 px-4">
@@ -47,6 +47,14 @@ function SettlementsPage() {
         <div className="text-right">Net Amount</div>
       </div>
 
+      {rows.length === 0 && (
+        <div className="flex flex-col items-center justify-center py-24">
+          <div className="h-24 w-24 rounded-full bg-muted flex items-center justify-center mb-4">
+            <FileCheck2 className="h-10 w-10 text-foreground/70" />
+          </div>
+          <div className="text-sm text-muted-foreground">No settlements found for this duration</div>
+        </div>
+      )}
       {grouped.map(([date, list]) => (
         <div key={date}>
           <div className="text-xs font-bold py-4 px-4">{date}</div>
