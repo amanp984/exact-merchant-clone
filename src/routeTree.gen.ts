@@ -14,6 +14,8 @@ import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as RefundsRouteImport } from './routes/refunds'
 import { Route as PaymentsRouteImport } from './routes/payments'
 import { Route as MyServicesRouteImport } from './routes/my-services'
+import { Route as MyQrCodeRouteImport } from './routes/my-qr-code'
+import { Route as InvoicesRouteImport } from './routes/invoices'
 import { Route as DisputesRouteImport } from './routes/disputes'
 import { Route as DeveloperSettingsRouteImport } from './routes/developer-settings'
 import { Route as BankDowntimesRouteImport } from './routes/bank-downtimes'
@@ -48,6 +50,16 @@ const PaymentsRoute = PaymentsRouteImport.update({
 const MyServicesRoute = MyServicesRouteImport.update({
   id: '/my-services',
   path: '/my-services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MyQrCodeRoute = MyQrCodeRouteImport.update({
+  id: '/my-qr-code',
+  path: '/my-qr-code',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InvoicesRoute = InvoicesRouteImport.update({
+  id: '/invoices',
+  path: '/invoices',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DisputesRoute = DisputesRouteImport.update({
@@ -108,6 +120,8 @@ export interface FileRoutesByFullPath {
   '/bank-downtimes': typeof BankDowntimesRoute
   '/developer-settings': typeof DeveloperSettingsRoute
   '/disputes': typeof DisputesRoute
+  '/invoices': typeof InvoicesRoute
+  '/my-qr-code': typeof MyQrCodeRoute
   '/my-services': typeof MyServicesRoute
   '/payments': typeof PaymentsRoute
   '/refunds': typeof RefundsRoute
@@ -125,6 +139,8 @@ export interface FileRoutesByTo {
   '/bank-downtimes': typeof BankDowntimesRoute
   '/developer-settings': typeof DeveloperSettingsRoute
   '/disputes': typeof DisputesRoute
+  '/invoices': typeof InvoicesRoute
+  '/my-qr-code': typeof MyQrCodeRoute
   '/my-services': typeof MyServicesRoute
   '/payments': typeof PaymentsRoute
   '/refunds': typeof RefundsRoute
@@ -143,6 +159,8 @@ export interface FileRoutesById {
   '/bank-downtimes': typeof BankDowntimesRoute
   '/developer-settings': typeof DeveloperSettingsRoute
   '/disputes': typeof DisputesRoute
+  '/invoices': typeof InvoicesRoute
+  '/my-qr-code': typeof MyQrCodeRoute
   '/my-services': typeof MyServicesRoute
   '/payments': typeof PaymentsRoute
   '/refunds': typeof RefundsRoute
@@ -162,6 +180,8 @@ export interface FileRouteTypes {
     | '/bank-downtimes'
     | '/developer-settings'
     | '/disputes'
+    | '/invoices'
+    | '/my-qr-code'
     | '/my-services'
     | '/payments'
     | '/refunds'
@@ -179,6 +199,8 @@ export interface FileRouteTypes {
     | '/bank-downtimes'
     | '/developer-settings'
     | '/disputes'
+    | '/invoices'
+    | '/my-qr-code'
     | '/my-services'
     | '/payments'
     | '/refunds'
@@ -196,6 +218,8 @@ export interface FileRouteTypes {
     | '/bank-downtimes'
     | '/developer-settings'
     | '/disputes'
+    | '/invoices'
+    | '/my-qr-code'
     | '/my-services'
     | '/payments'
     | '/refunds'
@@ -214,6 +238,8 @@ export interface RootRouteChildren {
   BankDowntimesRoute: typeof BankDowntimesRoute
   DeveloperSettingsRoute: typeof DeveloperSettingsRoute
   DisputesRoute: typeof DisputesRoute
+  InvoicesRoute: typeof InvoicesRoute
+  MyQrCodeRoute: typeof MyQrCodeRoute
   MyServicesRoute: typeof MyServicesRoute
   PaymentsRoute: typeof PaymentsRoute
   RefundsRoute: typeof RefundsRoute
@@ -259,6 +285,20 @@ declare module '@tanstack/react-router' {
       path: '/my-services'
       fullPath: '/my-services'
       preLoaderRoute: typeof MyServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/my-qr-code': {
+      id: '/my-qr-code'
+      path: '/my-qr-code'
+      fullPath: '/my-qr-code'
+      preLoaderRoute: typeof MyQrCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/invoices': {
+      id: '/invoices'
+      path: '/invoices'
+      fullPath: '/invoices'
+      preLoaderRoute: typeof InvoicesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/disputes': {
@@ -353,6 +393,8 @@ const rootRouteChildren: RootRouteChildren = {
   BankDowntimesRoute: BankDowntimesRoute,
   DeveloperSettingsRoute: DeveloperSettingsRoute,
   DisputesRoute: DisputesRoute,
+  InvoicesRoute: InvoicesRoute,
+  MyQrCodeRoute: MyQrCodeRoute,
   MyServicesRoute: MyServicesRoute,
   PaymentsRoute: PaymentsRoute,
   RefundsRoute: RefundsRoute,
@@ -365,3 +407,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
