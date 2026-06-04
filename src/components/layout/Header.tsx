@@ -6,12 +6,14 @@ export function Header() {
   return (
     <header className="h-16 sticky top-0 z-40 bg-background border-b border-border flex items-center px-4 gap-4">
       <Link to="/" className="flex items-center gap-2 shrink-0 w-60">
-        <div className="flex flex-col leading-none">
-          <span className="text-lg font-extrabold tracking-tight">
-            <span className="text-foreground">paytmm</span>
-            <span className="text-primary"> lite</span>
+        <div className="flex flex-col leading-[1] px-2 py-1 rounded">
+          <span className="text-[22px] font-extrabold tracking-tight text-primary">
+            PAYTMM
           </span>
-          <span className="text-[10px] text-muted-foreground font-semibold tracking-widest uppercase">for Business</span>
+          <span className="text-[13px] font-bold tracking-[0.2em] text-foreground -mt-0.5">
+            LITE
+          </span>
+          <span className="text-[9px] text-muted-foreground font-semibold tracking-widest uppercase mt-0.5">for Business</span>
         </div>
       </Link>
       <div className="flex-1 max-w-2xl relative">

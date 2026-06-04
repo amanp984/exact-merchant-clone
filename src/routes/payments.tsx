@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import { ArrowLeftRight } from "lucide-react";
 import { PageHeader } from "@/components/dashboard/PageHeader";
 import { FilterBar, FilterField } from "@/components/dashboard/FilterBar";
 import { DataTable, StatusPill } from "@/components/dashboard/DataTable";
@@ -12,8 +13,8 @@ export const Route = createFileRoute("/payments")({
 
 function PaymentsPage() {
   const [search, setSearch] = useState("");
-  const [status, setStatus] = useState("All");
-  const [method, setMethod] = useState("All");
+  const [status, setStatus] = useState("Success");
+  const [method] = useState("All");
 
   const rows = useMemo(() => {
     return PAYMENTS.filter((p) => {
@@ -24,11 +25,10 @@ function PaymentsPage() {
     });
   }, [search, status, method]);
 
-  const received = rows.reduce((s, r) => s + (r.status === "Success" ? r.amount : 0), 0);
-  const deductions = Math.round(received * 0.0);
-  const net = received - deductions;
-  const settled = Math.round(net * 1);
-  const available = net - settled;
+  const successRows = rows.filter((r) => r.status === "Success");
+  const received = successRows.reduce((s, r) => s + r.amount, 0);
+  const deductions = Math.round(received * 0.02);
+  const available = received - deductions;
 
   return (
     <div>
@@ -36,7 +36,7 @@ function PaymentsPage() {
       <FilterBar
         search={search}
         onSearch={setSearch}
-        searchPlaceholder="Search Order/Txn/UTR"
+        searchPlaceholder="Enter Search Value"
         onDownload={() =>
           downloadCSV("payments.csv", rows.map((r) => ({
             OrderID: r.orderId, TxnID: r.txnId, UTR: r.utr, Customer: r.customer,
@@ -44,25 +44,27 @@ function PaymentsPage() {
           })))
         }
       >
-        <FilterField label="Duration"><Select value="Last 30 Days" options={["Today", "Yesterday", "This Week", "This Month", "Last 30 Days"]} /></FilterField>
+        <FilterField label="Duration"><Select value="Today, 4 Jun" options={["Today, 4 Jun", "Yesterday", "This Week", "This Month", "Last 30 Days"]} /></FilterField>
         <FilterField label="Status">
           <Select value={status} onChange={setStatus} options={["All", "Success", "Failed", "Pending", "Refunded"]} />
         </FilterField>
-        <FilterField label="Payment Method">
-          <Select value={method} onChange={setMethod} options={["All", "UPI", "QR", "Card", "Net Banking", "Wallet"]} />
-        </FilterField>
       </FilterBar>
-      <div className="grid grid-cols-1 md:grid-cols-[1fr_24px_1fr_24px_1fr_24px_1fr_24px_1fr] items-center gap-x-2 mb-6">
-        <KPI label={`${rows.filter(r=>r.status==="Success").length} Payments Received`} value={inr(received)} />
+      <div className="bg-muted/30 rounded-lg px-6 py-5 grid grid-cols-1 md:grid-cols-[1fr_28px_1fr_28px_1fr_auto] items-center gap-x-3 mb-6">
+        <KPI label={`${successRows.length} Payment Received`} value={inr(received)} />
         <Op>−</Op>
         <KPI label="Deductions" value={inr(deductions)} />
         <Op>=</Op>
-        <KPI label="Net Settlement" value={inr(net)} link="View Detail" highlight />
-        <Op>−</Op>
-        <KPI label="Settlements" value={inr(settled)} />
-        <Op>=</Op>
-        <KPI label="Available for Settlement" value={inr(available)} link="Settle Now" />
+        <KPI label="Available for Settlement" value={inr(available)} link="Settle Now" highlight />
+        <a href="#" className="text-sm text-primary font-semibold md:ml-4">View Detail</a>
       </div>
+      {rows.length === 0 ? (
+        <div className="flex flex-col items-center justify-center py-24">
+          <div className="h-24 w-24 rounded-full bg-muted flex items-center justify-center mb-4">
+            <ArrowLeftRight className="h-10 w-10 text-foreground/70" />
+          </div>
+          <div className="text-sm text-muted-foreground">No payments available for this duration</div>
+        </div>
+      ) : (
       <DataTable
         rows={rows}
         columns={[
@@ -75,22 +77,23 @@ function PaymentsPage() {
           { key: "amount", label: "Amount", align: "right", render: (r) => <span className="font-semibold">{inr(r.amount)}</span> },
         ]}
       />
+      )}
     </div>
   );
 }
 
 function KPI({ label, value, link, highlight }: { label: string; value: string; link?: string; highlight?: boolean }) {
   return (
-    <div className="py-2">
+    <div className="py-1">
       <div className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">{label}</div>
-      <div className={`mt-1 text-xl font-bold ${highlight ? "text-foreground" : ""}`}>{value}</div>
+      <div className={`mt-1 text-2xl font-bold ${highlight ? "text-foreground" : ""}`}>{value}</div>
       {link && <button className="text-xs text-primary hover:underline mt-0.5">{link}</button>}
     </div>
   );
 }
 
 function Op({ children }: { children: React.ReactNode }) {
-  return <div className="hidden md:flex justify-center text-muted-foreground text-lg font-light">{children}</div>;
+  return <div className="hidden md:flex justify-center items-center"><span className="h-7 w-7 rounded-full bg-card border border-border flex items-center justify-center text-sm">{children}</span></div>;
 }
 
 function Select({ value, onChange, options }: { value: string; onChange?: (v: string) => void; options: string[] }) {

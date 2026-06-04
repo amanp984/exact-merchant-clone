@@ -158,11 +158,11 @@ export const BANK_DOWNTIMES: BankDowntime[] = [
 ];
 
 export const MERCHANT = {
-  name: "Aman Jatashankar Prajapati",
-  mid: "PLMVcH22845451615122",
+  name: "Rambabu Prajapati",
+  mid: "pRDmPG87482827307604",
   businessName: "Prajapati Enterprises",
-  email: "aman@prajapati.in",
-  phone: "+91 98765 43210",
+  email: "rambabu@prajapati.in",
+  phone: "+91 80816 89774",
   address: "204, MG Road, Bengaluru, Karnataka 560001",
   pan: "ABCDE1234F",
   gst: "29ABCDE1234F1Z5",

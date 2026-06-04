@@ -14,6 +14,8 @@ import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as RefundsRouteImport } from './routes/refunds'
 import { Route as PaymentsRouteImport } from './routes/payments'
 import { Route as MyServicesRouteImport } from './routes/my-services'
+import { Route as MyQrCodeRouteImport } from './routes/my-qr-code'
+import { Route as InvoicesRouteImport } from './routes/invoices'
 import { Route as DisputesRouteImport } from './routes/disputes'
 import { Route as DeveloperSettingsRouteImport } from './routes/developer-settings'
 import { Route as BankDowntimesRouteImport } from './routes/bank-downtimes'
@@ -24,6 +26,7 @@ import { Route as SettlementsIdRouteImport } from './routes/settlements.$id'
 import { Route as SettingsUsersRouteImport } from './routes/settings.users'
 import { Route as SettingsProfileRouteImport } from './routes/settings.profile'
 import { Route as SettingsDashboardRouteImport } from './routes/settings.dashboard'
+import { Route as SettingsDashboardNotificationsRouteImport } from './routes/settings.dashboard.notifications'
 
 const SettlementsRoute = SettlementsRouteImport.update({
   id: '/settlements',
@@ -48,6 +51,16 @@ const PaymentsRoute = PaymentsRouteImport.update({
 const MyServicesRoute = MyServicesRouteImport.update({
   id: '/my-services',
   path: '/my-services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MyQrCodeRoute = MyQrCodeRouteImport.update({
+  id: '/my-qr-code',
+  path: '/my-qr-code',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InvoicesRoute = InvoicesRouteImport.update({
+  id: '/invoices',
+  path: '/invoices',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DisputesRoute = DisputesRouteImport.update({
@@ -100,6 +113,12 @@ const SettingsDashboardRoute = SettingsDashboardRouteImport.update({
   path: '/settings/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SettingsDashboardNotificationsRoute =
+  SettingsDashboardNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => SettingsDashboardRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -108,15 +127,18 @@ export interface FileRoutesByFullPath {
   '/bank-downtimes': typeof BankDowntimesRoute
   '/developer-settings': typeof DeveloperSettingsRoute
   '/disputes': typeof DisputesRoute
+  '/invoices': typeof InvoicesRoute
+  '/my-qr-code': typeof MyQrCodeRoute
   '/my-services': typeof MyServicesRoute
   '/payments': typeof PaymentsRoute
   '/refunds': typeof RefundsRoute
   '/reports': typeof ReportsRoute
   '/settlements': typeof SettlementsRouteWithChildren
-  '/settings/dashboard': typeof SettingsDashboardRoute
+  '/settings/dashboard': typeof SettingsDashboardRouteWithChildren
   '/settings/profile': typeof SettingsProfileRoute
   '/settings/users': typeof SettingsUsersRoute
   '/settlements/$id': typeof SettlementsIdRoute
+  '/settings/dashboard/notifications': typeof SettingsDashboardNotificationsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -125,15 +147,18 @@ export interface FileRoutesByTo {
   '/bank-downtimes': typeof BankDowntimesRoute
   '/developer-settings': typeof DeveloperSettingsRoute
   '/disputes': typeof DisputesRoute
+  '/invoices': typeof InvoicesRoute
+  '/my-qr-code': typeof MyQrCodeRoute
   '/my-services': typeof MyServicesRoute
   '/payments': typeof PaymentsRoute
   '/refunds': typeof RefundsRoute
   '/reports': typeof ReportsRoute
   '/settlements': typeof SettlementsRouteWithChildren
-  '/settings/dashboard': typeof SettingsDashboardRoute
+  '/settings/dashboard': typeof SettingsDashboardRouteWithChildren
   '/settings/profile': typeof SettingsProfileRoute
   '/settings/users': typeof SettingsUsersRoute
   '/settlements/$id': typeof SettlementsIdRoute
+  '/settings/dashboard/notifications': typeof SettingsDashboardNotificationsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -143,15 +168,18 @@ export interface FileRoutesById {
   '/bank-downtimes': typeof BankDowntimesRoute
   '/developer-settings': typeof DeveloperSettingsRoute
   '/disputes': typeof DisputesRoute
+  '/invoices': typeof InvoicesRoute
+  '/my-qr-code': typeof MyQrCodeRoute
   '/my-services': typeof MyServicesRoute
   '/payments': typeof PaymentsRoute
   '/refunds': typeof RefundsRoute
   '/reports': typeof ReportsRoute
   '/settlements': typeof SettlementsRouteWithChildren
-  '/settings/dashboard': typeof SettingsDashboardRoute
+  '/settings/dashboard': typeof SettingsDashboardRouteWithChildren
   '/settings/profile': typeof SettingsProfileRoute
   '/settings/users': typeof SettingsUsersRoute
   '/settlements/$id': typeof SettlementsIdRoute
+  '/settings/dashboard/notifications': typeof SettingsDashboardNotificationsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -162,6 +190,8 @@ export interface FileRouteTypes {
     | '/bank-downtimes'
     | '/developer-settings'
     | '/disputes'
+    | '/invoices'
+    | '/my-qr-code'
     | '/my-services'
     | '/payments'
     | '/refunds'
@@ -171,6 +201,7 @@ export interface FileRouteTypes {
     | '/settings/profile'
     | '/settings/users'
     | '/settlements/$id'
+    | '/settings/dashboard/notifications'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -179,6 +210,8 @@ export interface FileRouteTypes {
     | '/bank-downtimes'
     | '/developer-settings'
     | '/disputes'
+    | '/invoices'
+    | '/my-qr-code'
     | '/my-services'
     | '/payments'
     | '/refunds'
@@ -188,6 +221,7 @@ export interface FileRouteTypes {
     | '/settings/profile'
     | '/settings/users'
     | '/settlements/$id'
+    | '/settings/dashboard/notifications'
   id:
     | '__root__'
     | '/'
@@ -196,6 +230,8 @@ export interface FileRouteTypes {
     | '/bank-downtimes'
     | '/developer-settings'
     | '/disputes'
+    | '/invoices'
+    | '/my-qr-code'
     | '/my-services'
     | '/payments'
     | '/refunds'
@@ -205,6 +241,7 @@ export interface FileRouteTypes {
     | '/settings/profile'
     | '/settings/users'
     | '/settlements/$id'
+    | '/settings/dashboard/notifications'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -214,12 +251,14 @@ export interface RootRouteChildren {
   BankDowntimesRoute: typeof BankDowntimesRoute
   DeveloperSettingsRoute: typeof DeveloperSettingsRoute
   DisputesRoute: typeof DisputesRoute
+  InvoicesRoute: typeof InvoicesRoute
+  MyQrCodeRoute: typeof MyQrCodeRoute
   MyServicesRoute: typeof MyServicesRoute
   PaymentsRoute: typeof PaymentsRoute
   RefundsRoute: typeof RefundsRoute
   ReportsRoute: typeof ReportsRoute
   SettlementsRoute: typeof SettlementsRouteWithChildren
-  SettingsDashboardRoute: typeof SettingsDashboardRoute
+  SettingsDashboardRoute: typeof SettingsDashboardRouteWithChildren
   SettingsProfileRoute: typeof SettingsProfileRoute
   SettingsUsersRoute: typeof SettingsUsersRoute
 }
@@ -259,6 +298,20 @@ declare module '@tanstack/react-router' {
       path: '/my-services'
       fullPath: '/my-services'
       preLoaderRoute: typeof MyServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/my-qr-code': {
+      id: '/my-qr-code'
+      path: '/my-qr-code'
+      fullPath: '/my-qr-code'
+      preLoaderRoute: typeof MyQrCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/invoices': {
+      id: '/invoices'
+      path: '/invoices'
+      fullPath: '/invoices'
+      preLoaderRoute: typeof InvoicesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/disputes': {
@@ -331,6 +384,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/settings/dashboard/notifications': {
+      id: '/settings/dashboard/notifications'
+      path: '/notifications'
+      fullPath: '/settings/dashboard/notifications'
+      preLoaderRoute: typeof SettingsDashboardNotificationsRouteImport
+      parentRoute: typeof SettingsDashboardRoute
+    }
   }
 }
 
@@ -346,6 +406,17 @@ const SettlementsRouteWithChildren = SettlementsRoute._addFileChildren(
   SettlementsRouteChildren,
 )
 
+interface SettingsDashboardRouteChildren {
+  SettingsDashboardNotificationsRoute: typeof SettingsDashboardNotificationsRoute
+}
+
+const SettingsDashboardRouteChildren: SettingsDashboardRouteChildren = {
+  SettingsDashboardNotificationsRoute: SettingsDashboardNotificationsRoute,
+}
+
+const SettingsDashboardRouteWithChildren =
+  SettingsDashboardRoute._addFileChildren(SettingsDashboardRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AcceptPaymentsRoute: AcceptPaymentsRoute,
@@ -353,12 +424,14 @@ const rootRouteChildren: RootRouteChildren = {
   BankDowntimesRoute: BankDowntimesRoute,
   DeveloperSettingsRoute: DeveloperSettingsRoute,
   DisputesRoute: DisputesRoute,
+  InvoicesRoute: InvoicesRoute,
+  MyQrCodeRoute: MyQrCodeRoute,
   MyServicesRoute: MyServicesRoute,
   PaymentsRoute: PaymentsRoute,
   RefundsRoute: RefundsRoute,
   ReportsRoute: ReportsRoute,
   SettlementsRoute: SettlementsRouteWithChildren,
-  SettingsDashboardRoute: SettingsDashboardRoute,
+  SettingsDashboardRoute: SettingsDashboardRouteWithChildren,
   SettingsProfileRoute: SettingsProfileRoute,
   SettingsUsersRoute: SettingsUsersRoute,
 }
