@@ -24,6 +24,12 @@ function PaymentsPage() {
     });
   }, [search, status, method]);
 
+  const received = rows.reduce((s, r) => s + (r.status === "Success" ? r.amount : 0), 0);
+  const deductions = Math.round(received * 0.0);
+  const net = received - deductions;
+  const settled = Math.round(net * 1);
+  const available = net - settled;
+
   return (
     <div>
       <PageHeader title="Payments" />
@@ -46,6 +52,17 @@ function PaymentsPage() {
           <Select value={method} onChange={setMethod} options={["All", "UPI", "QR", "Card", "Net Banking", "Wallet"]} />
         </FilterField>
       </FilterBar>
+      <div className="grid grid-cols-1 md:grid-cols-[1fr_24px_1fr_24px_1fr_24px_1fr_24px_1fr] items-center gap-x-2 mb-6">
+        <KPI label={`${rows.filter(r=>r.status==="Success").length} Payments Received`} value={inr(received)} />
+        <Op>−</Op>
+        <KPI label="Deductions" value={inr(deductions)} />
+        <Op>=</Op>
+        <KPI label="Net Settlement" value={inr(net)} link="View Detail" highlight />
+        <Op>−</Op>
+        <KPI label="Settlements" value={inr(settled)} />
+        <Op>=</Op>
+        <KPI label="Available for Settlement" value={inr(available)} link="Settle Now" />
+      </div>
       <DataTable
         rows={rows}
         columns={[
@@ -60,6 +77,20 @@ function PaymentsPage() {
       />
     </div>
   );
+}
+
+function KPI({ label, value, link, highlight }: { label: string; value: string; link?: string; highlight?: boolean }) {
+  return (
+    <div className="py-2">
+      <div className="text-[11px] uppercase tracking-wider text-muted-foreground font-semibold">{label}</div>
+      <div className={`mt-1 text-xl font-bold ${highlight ? "text-foreground" : ""}`}>{value}</div>
+      {link && <button className="text-xs text-primary hover:underline mt-0.5">{link}</button>}
+    </div>
+  );
+}
+
+function Op({ children }: { children: React.ReactNode }) {
+  return <div className="hidden md:flex justify-center text-muted-foreground text-lg font-light">{children}</div>;
 }
 
 function Select({ value, onChange, options }: { value: string; onChange?: (v: string) => void; options: string[] }) {
