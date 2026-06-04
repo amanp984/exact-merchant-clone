@@ -14,7 +14,7 @@ export const Route = createFileRoute("/payments")({
 function PaymentsPage() {
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("Success");
-  const [method, setMethod] = useState("All");
+  const [method] = useState("All");
 
   const rows = useMemo(() => {
     return PAYMENTS.filter((p) => {
