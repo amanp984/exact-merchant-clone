@@ -153,8 +153,8 @@ function SimpleLink({ to, icon: Icon, label, active }: { to: string; icon: React
     <Link
       to={to}
       className={cn(
-        "flex items-center gap-2 px-5 py-3 text-sm font-semibold uppercase text-xs tracking-wider transition-colors",
-        active ? "text-primary" : "text-sidebar-foreground/80 hover:text-foreground"
+        "flex items-center gap-2 px-5 py-3 text-[15px] font-bold transition-colors",
+        active ? "text-primary" : "text-foreground hover:text-primary"
       )}
     >
       <Icon className="h-4 w-4" />
