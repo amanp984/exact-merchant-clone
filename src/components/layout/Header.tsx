@@ -1,3 +1,4 @@
+import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { Search, HelpCircle, LogOut, User, BadgeCheck, ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
