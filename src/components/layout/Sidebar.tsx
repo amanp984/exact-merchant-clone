@@ -73,8 +73,9 @@ export function Sidebar() {
   );
 }
 
+type IconType = React.ComponentType<{ className?: string; strokeWidth?: number }>;
 function Group({ label, open, onToggle, children, icon: Icon }: {
-  label: string; open: boolean; onToggle: () => void; children: React.ReactNode; icon?: React.ComponentType<{ className?: string }>;
+  label: string; open: boolean; onToggle: () => void; children: React.ReactNode; icon?: IconType;
 }) {
   return (
     <div className="mb-0.5">
@@ -94,7 +95,7 @@ function Group({ label, open, onToggle, children, icon: Icon }: {
 }
 
 function NestedGroup({ label, icon: Icon, open, onToggle, active, children }: {
-  label: string; icon: React.ComponentType<{ className?: string }>; open: boolean; onToggle: () => void; active: boolean; children: React.ReactNode;
+  label: string; icon: IconType; open: boolean; onToggle: () => void; active: boolean; children: React.ReactNode;
 }) {
   return (
     <div>
@@ -116,7 +117,7 @@ function NestedGroup({ label, icon: Icon, open, onToggle, active, children }: {
   );
 }
 
-function SubItem({ to, icon: Icon, label, active }: { to: string; icon: React.ComponentType<{ className?: string }>; label: string; active: boolean }) {
+function SubItem({ to, icon: Icon, label, active }: { to: string; icon: IconType; label: string; active: boolean }) {
   return (
     <Link
       to={to}
@@ -131,7 +132,7 @@ function SubItem({ to, icon: Icon, label, active }: { to: string; icon: React.Co
   );
 }
 
-function Item({ to, label, icon: Icon, active }: { to: string; label: string; icon: React.ComponentType<{ className?: string }>; active: boolean }) {
+function Item({ to, label, icon: Icon, active }: { to: string; label: string; icon: IconType; active: boolean }) {
   return (
     <Link
       to={to}
@@ -148,7 +149,7 @@ function Item({ to, label, icon: Icon, active }: { to: string; label: string; ic
   );
 }
 
-function SimpleLink({ to, icon: Icon, label, active }: { to: string; icon: React.ComponentType<{ className?: string }>; label: string; active: boolean }) {
+function SimpleLink({ to, icon: Icon, label, active }: { to: string; icon: IconType; label: string; active: boolean }) {
   return (
     <Link
       to={to}
