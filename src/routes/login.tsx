@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Lock, ChevronRight, Eye, EyeOff, QrCode } from "lucide-react";
 import { useAuth } from "@/lib/auth";
+import { Logo } from "@/components/Logo";
 
 export const Route = createFileRoute("/login")({
   head: () => ({ meta: [{ title: "Login — PAYTMM LITE" }] }),
@@ -31,9 +32,8 @@ function LoginPage() {
     <div className="min-h-screen grid md:grid-cols-2 bg-background">
       {/* Left illustration */}
       <div className="hidden md:flex flex-col items-center justify-between bg-[#0b3b8c] text-white p-12 relative overflow-hidden">
-        <div className="flex items-center gap-2 self-start">
-          <span className="text-4xl font-extrabold tracking-tight">PAYTMM</span>
-          <span className="bg-white text-[#0b3b8c] text-xs font-bold px-2 py-1 rounded-full">LITE</span>
+        <div className="self-start bg-white rounded-lg p-3">
+          <Logo className="h-12 w-auto" />
         </div>
         <div className="text-center">
           <h2 className="text-3xl font-bold leading-tight">Safe &amp; secure<br/>lightning-fast payments</h2>
@@ -50,6 +50,7 @@ function LoginPage() {
       {/* Right form */}
       <div className="flex items-center justify-center p-8 md:p-16">
         <form onSubmit={onSubmit} className="w-full max-w-md">
+          <div className="md:hidden mb-6"><Logo className="h-12 w-auto" /></div>
           <h1 className="text-[28px] font-semibold text-foreground">Login with your PAYTMM LITE account</h1>
           <p className="mt-2 text-sm text-primary">Use USER123@GMAIL.COM / USER123 to sign in</p>
 
