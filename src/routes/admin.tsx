@@ -50,7 +50,14 @@ function AdminPanel() {
         <p className="text-sm text-muted-foreground mb-4">
           Paste a bank/UPI SMS to test the parser. Once Lovable Cloud is enabled, parsed records will write to <code className="bg-muted px-1 rounded">sms_transactions</code> and update dashboards in realtime.
         </p>
-        <textarea rows={4} placeholder="e.g. INR 1,250.00 credited to A/c XX1234 on 03-06-26. UPI Ref no 415424209672." className="w-full border border-border rounded-md px-3 py-2 text-sm font-mono" />
+        <textarea
+          rows={4}
+          value={sms}
+          onChange={(e) => setSms(e.target.value)}
+          placeholder="e.g. INR 1,250.00 credited to A/c XX1234 on 03-06-26. UPI Ref no 415424209672."
+          className="w-full border border-border rounded-md px-3 py-2 text-sm font-mono"
+        />
+        <Button className="mt-3" onClick={ingest} disabled={!sms.trim()}>Ingest SMS</Button>
       </div>
     </div>
   );
