@@ -2,6 +2,9 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Printer, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { MERCHANT } from "@/lib/data/mock";
+import { Logo } from "@/components/Logo";
+
+
 
 export const Route = createFileRoute("/my-qr-code")({
   head: () => ({ meta: [{ title: "My QR Code — PAYTMM LITE" }] }),
@@ -20,8 +23,7 @@ function QRPage() {
         <div className="bg-card rounded-2xl border border-border overflow-hidden shadow-sm">
           <div className="bg-[hsl(195_100%_55%)] p-3">
             <div className="bg-white rounded-lg p-4 flex flex-col items-center">
-              <div className="text-primary font-extrabold text-xl leading-none">PAYTMM</div>
-              <div className="text-[11px] font-bold tracking-[0.2em] text-foreground">LITE</div>
+              <Logo className="h-12 w-auto" />
               <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mt-1">Accepted Here</div>
               <img src={qrUrl} alt="UPI QR" className="my-4 w-64 h-64" />
               <div className="text-xs text-muted-foreground">UPI ID: {upi}</div>
