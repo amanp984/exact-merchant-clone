@@ -3,7 +3,6 @@ import { useState } from "react";
 import { ChevronRight, Mail, Download, Link2, Settings as Cog } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PageHeader } from "@/components/dashboard/PageHeader";
-import { useFilesDownload } from "@/components/layout/FilesToDownload";
 
 export const Route = createFileRoute("/reports")({
   head: () => ({ meta: [{ title: "Reports & Invoices — paytmm lite" }] }),
@@ -22,7 +21,7 @@ const RECENT = [
 
 function ReportsPage() {
   const [tab, setTab] = useState<Tab>("Payment");
-  const { add } = useFilesDownload();
+  const add = (_name: string) => {};
   return (
     <div>
       <PageHeader title="Reports" />
