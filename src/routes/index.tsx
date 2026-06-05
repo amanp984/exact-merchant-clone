@@ -70,13 +70,19 @@ function Home() {
     return days;
   }, [payments]);
 
-  const sources = [
-    { name: "UPI", value: 58, amount: 5840, color: "hsl(210 90% 55%)" },
-    { name: "QR", value: 18, amount: 1810, color: "hsl(160 70% 45%)" },
-    { name: "Card", value: 12, amount: 1240, color: "hsl(280 70% 55%)" },
-    { name: "Net Banking", value: 8, amount: 820, color: "hsl(40 90% 55%)" },
-    { name: "Wallet", value: 4, amount: 410, color: "hsl(0 75% 60%)" },
-  ];
+  const sources = useMemo(() => {
+    const colors: Record<string, string> = {
+      UPI: "hsl(210 90% 55%)", QR: "hsl(160 70% 45%)", Card: "hsl(280 70% 55%)",
+      "Net Banking": "hsl(40 90% 55%)", Wallet: "hsl(0 75% 60%)",
+    };
+    const names = ["UPI", "QR", "Card", "Net Banking", "Wallet"];
+    const filtered = payments.filter((p) => p.status === "Success" && inRange(p.createdAt, range));
+    const total = filtered.reduce((s, p) => s + p.amount, 0) || 1;
+    return names.map((n) => {
+      const amount = filtered.filter((p) => p.method === n).reduce((s, p) => s + p.amount, 0);
+      return { name: n, value: Math.round((amount / total) * 100), amount, color: colors[n] };
+    });
+  }, [payments, range]);
 
   return (
     <div className="space-y-8">
