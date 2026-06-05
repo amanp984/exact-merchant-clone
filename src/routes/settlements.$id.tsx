@@ -1,8 +1,9 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SETTLEMENTS, PAYMENTS, fmtDate, fmtTime, inr } from "@/lib/data/mock";
+import { fmtDate, fmtTime, inr } from "@/lib/data/mock";
 import { DataTable, StatusPill } from "@/components/dashboard/DataTable";
+import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/settlements/$id")({
   component: SettlementDetail,
@@ -11,9 +12,11 @@ export const Route = createFileRoute("/settlements/$id")({
 
 function SettlementDetail() {
   const { id } = Route.useParams();
-  const s = SETTLEMENTS.find((x) => x.id === id);
-  if (!s) return <div>Settlement not found.</div>;
-  const txns = PAYMENTS.filter((p) => p.status === "Success").slice(0, s.payments);
+  const settlements = useStore((s) => s.settlements);
+  const payments = useStore((s) => s.payments);
+  const s = settlements.find((x) => x.id === id);
+  if (!s) return <div className="p-6">Settlement not found.</div>;
+  const txns = payments.filter((p) => s.paymentIds.includes(p.id));
 
   return (
     <div className="space-y-6">
@@ -22,16 +25,16 @@ function SettlementDetail() {
       </Link>
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Settlement {s.id.toUpperCase()}</h1>
-          <p className="text-sm text-muted-foreground">UTR: {s.utr}</p>
+          <h1 className="text-2xl font-bold">Settlement</h1>
+          <p className="text-sm text-muted-foreground font-mono">UTR: {s.utr}</p>
         </div>
         <Button onClick={() => window.print()} variant="outline"><Download className="h-4 w-4 mr-1.5" /> Download PDF</Button>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <Stat label="Settlement Date" value={fmtDate(s.date)} />
-        <Stat label="Collection Amount" value={inr(s.collection)} />
-        <Stat label="Charges + GST" value={inr(s.deduction)} />
-        <Stat label="Net Settlement" value={inr(s.net)} highlight />
+        <Stat label="Generated At" value={new Date(s.createdAt).toLocaleString("en-IN")} />
+        <Stat label="No. of Transactions" value={String(s.transactionCount)} />
+        <Stat label="Settlement Amount" value={inr(s.amount)} highlight />
       </div>
       <div className="border border-border rounded-2xl bg-card">
         <div className="p-4 border-b border-border font-semibold">Transactions Included ({txns.length})</div>
@@ -39,11 +42,12 @@ function SettlementDetail() {
           rows={txns}
           columns={[
             { key: "orderId", label: "Order ID", render: (r) => <span className="text-primary">{r.orderId}</span> },
-            { key: "txnId", label: "Txn ID", render: (r) => r.txnId },
+            { key: "txnId", label: "Txn ID", render: (r) => <span className="font-mono text-xs">{r.txnId}</span> },
+            { key: "utr", label: "UTR", render: (r) => <span className="font-mono text-xs">{r.utr}</span> },
             { key: "customer", label: "Customer", render: (r) => r.customer },
             { key: "method", label: "Method", render: (r) => r.method },
             { key: "status", label: "Status", render: (r) => <StatusPill status={r.status} /> },
-            { key: "date", label: "Time", render: (r) => fmtTime(r.date) },
+            { key: "date", label: "Time", render: (r) => fmtTime(r.createdAt) },
             { key: "amount", label: "Amount", align: "right", render: (r) => inr(r.amount) },
           ]}
         />
@@ -60,4 +64,3 @@ function Stat({ label, value, highlight }: { label: string; value: string; highl
     </div>
   );
 }
-
