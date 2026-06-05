@@ -12,13 +12,17 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SettlementsRouteImport } from './routes/settlements'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as RefundsRouteImport } from './routes/refunds'
+import { Route as ProductsRouteImport } from './routes/products'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as PaymentsRouteImport } from './routes/payments'
 import { Route as MyServicesRouteImport } from './routes/my-services'
 import { Route as MyQrCodeRouteImport } from './routes/my-qr-code'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as InvoicesRouteImport } from './routes/invoices'
+import { Route as HelpRouteImport } from './routes/help'
 import { Route as DisputesRouteImport } from './routes/disputes'
 import { Route as DeveloperSettingsRouteImport } from './routes/developer-settings'
+import { Route as DeveloperRouteImport } from './routes/developer'
 import { Route as BankDowntimesRouteImport } from './routes/bank-downtimes'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AcceptPaymentsRouteImport } from './routes/accept-payments'
@@ -42,6 +46,16 @@ const ReportsRoute = ReportsRouteImport.update({
 const RefundsRoute = RefundsRouteImport.update({
   id: '/refunds',
   path: '/refunds',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProductsRoute = ProductsRouteImport.update({
+  id: '/products',
+  path: '/products',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PaymentsRoute = PaymentsRouteImport.update({
@@ -69,6 +83,11 @@ const InvoicesRoute = InvoicesRouteImport.update({
   path: '/invoices',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HelpRoute = HelpRouteImport.update({
+  id: '/help',
+  path: '/help',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DisputesRoute = DisputesRouteImport.update({
   id: '/disputes',
   path: '/disputes',
@@ -77,6 +96,11 @@ const DisputesRoute = DisputesRouteImport.update({
 const DeveloperSettingsRoute = DeveloperSettingsRouteImport.update({
   id: '/developer-settings',
   path: '/developer-settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DeveloperRoute = DeveloperRouteImport.update({
+  id: '/developer',
+  path: '/developer',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BankDowntimesRoute = BankDowntimesRouteImport.update({
@@ -131,13 +155,17 @@ export interface FileRoutesByFullPath {
   '/accept-payments': typeof AcceptPaymentsRoute
   '/admin': typeof AdminRoute
   '/bank-downtimes': typeof BankDowntimesRoute
+  '/developer': typeof DeveloperRoute
   '/developer-settings': typeof DeveloperSettingsRoute
   '/disputes': typeof DisputesRoute
+  '/help': typeof HelpRoute
   '/invoices': typeof InvoicesRoute
   '/login': typeof LoginRoute
   '/my-qr-code': typeof MyQrCodeRoute
   '/my-services': typeof MyServicesRoute
   '/payments': typeof PaymentsRoute
+  '/pricing': typeof PricingRoute
+  '/products': typeof ProductsRoute
   '/refunds': typeof RefundsRoute
   '/reports': typeof ReportsRoute
   '/settlements': typeof SettlementsRouteWithChildren
@@ -152,13 +180,17 @@ export interface FileRoutesByTo {
   '/accept-payments': typeof AcceptPaymentsRoute
   '/admin': typeof AdminRoute
   '/bank-downtimes': typeof BankDowntimesRoute
+  '/developer': typeof DeveloperRoute
   '/developer-settings': typeof DeveloperSettingsRoute
   '/disputes': typeof DisputesRoute
+  '/help': typeof HelpRoute
   '/invoices': typeof InvoicesRoute
   '/login': typeof LoginRoute
   '/my-qr-code': typeof MyQrCodeRoute
   '/my-services': typeof MyServicesRoute
   '/payments': typeof PaymentsRoute
+  '/pricing': typeof PricingRoute
+  '/products': typeof ProductsRoute
   '/refunds': typeof RefundsRoute
   '/reports': typeof ReportsRoute
   '/settlements': typeof SettlementsRouteWithChildren
@@ -174,13 +206,17 @@ export interface FileRoutesById {
   '/accept-payments': typeof AcceptPaymentsRoute
   '/admin': typeof AdminRoute
   '/bank-downtimes': typeof BankDowntimesRoute
+  '/developer': typeof DeveloperRoute
   '/developer-settings': typeof DeveloperSettingsRoute
   '/disputes': typeof DisputesRoute
+  '/help': typeof HelpRoute
   '/invoices': typeof InvoicesRoute
   '/login': typeof LoginRoute
   '/my-qr-code': typeof MyQrCodeRoute
   '/my-services': typeof MyServicesRoute
   '/payments': typeof PaymentsRoute
+  '/pricing': typeof PricingRoute
+  '/products': typeof ProductsRoute
   '/refunds': typeof RefundsRoute
   '/reports': typeof ReportsRoute
   '/settlements': typeof SettlementsRouteWithChildren
@@ -197,13 +233,17 @@ export interface FileRouteTypes {
     | '/accept-payments'
     | '/admin'
     | '/bank-downtimes'
+    | '/developer'
     | '/developer-settings'
     | '/disputes'
+    | '/help'
     | '/invoices'
     | '/login'
     | '/my-qr-code'
     | '/my-services'
     | '/payments'
+    | '/pricing'
+    | '/products'
     | '/refunds'
     | '/reports'
     | '/settlements'
@@ -218,13 +258,17 @@ export interface FileRouteTypes {
     | '/accept-payments'
     | '/admin'
     | '/bank-downtimes'
+    | '/developer'
     | '/developer-settings'
     | '/disputes'
+    | '/help'
     | '/invoices'
     | '/login'
     | '/my-qr-code'
     | '/my-services'
     | '/payments'
+    | '/pricing'
+    | '/products'
     | '/refunds'
     | '/reports'
     | '/settlements'
@@ -239,13 +283,17 @@ export interface FileRouteTypes {
     | '/accept-payments'
     | '/admin'
     | '/bank-downtimes'
+    | '/developer'
     | '/developer-settings'
     | '/disputes'
+    | '/help'
     | '/invoices'
     | '/login'
     | '/my-qr-code'
     | '/my-services'
     | '/payments'
+    | '/pricing'
+    | '/products'
     | '/refunds'
     | '/reports'
     | '/settlements'
@@ -261,13 +309,17 @@ export interface RootRouteChildren {
   AcceptPaymentsRoute: typeof AcceptPaymentsRoute
   AdminRoute: typeof AdminRoute
   BankDowntimesRoute: typeof BankDowntimesRoute
+  DeveloperRoute: typeof DeveloperRoute
   DeveloperSettingsRoute: typeof DeveloperSettingsRoute
   DisputesRoute: typeof DisputesRoute
+  HelpRoute: typeof HelpRoute
   InvoicesRoute: typeof InvoicesRoute
   LoginRoute: typeof LoginRoute
   MyQrCodeRoute: typeof MyQrCodeRoute
   MyServicesRoute: typeof MyServicesRoute
   PaymentsRoute: typeof PaymentsRoute
+  PricingRoute: typeof PricingRoute
+  ProductsRoute: typeof ProductsRoute
   RefundsRoute: typeof RefundsRoute
   ReportsRoute: typeof ReportsRoute
   SettlementsRoute: typeof SettlementsRouteWithChildren
@@ -297,6 +349,20 @@ declare module '@tanstack/react-router' {
       path: '/refunds'
       fullPath: '/refunds'
       preLoaderRoute: typeof RefundsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/products': {
+      id: '/products'
+      path: '/products'
+      fullPath: '/products'
+      preLoaderRoute: typeof ProductsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/payments': {
@@ -334,6 +400,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InvoicesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/help': {
+      id: '/help'
+      path: '/help'
+      fullPath: '/help'
+      preLoaderRoute: typeof HelpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/disputes': {
       id: '/disputes'
       path: '/disputes'
@@ -346,6 +419,13 @@ declare module '@tanstack/react-router' {
       path: '/developer-settings'
       fullPath: '/developer-settings'
       preLoaderRoute: typeof DeveloperSettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/developer': {
+      id: '/developer'
+      path: '/developer'
+      fullPath: '/developer'
+      preLoaderRoute: typeof DeveloperRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/bank-downtimes': {
@@ -442,13 +522,17 @@ const rootRouteChildren: RootRouteChildren = {
   AcceptPaymentsRoute: AcceptPaymentsRoute,
   AdminRoute: AdminRoute,
   BankDowntimesRoute: BankDowntimesRoute,
+  DeveloperRoute: DeveloperRoute,
   DeveloperSettingsRoute: DeveloperSettingsRoute,
   DisputesRoute: DisputesRoute,
+  HelpRoute: HelpRoute,
   InvoicesRoute: InvoicesRoute,
   LoginRoute: LoginRoute,
   MyQrCodeRoute: MyQrCodeRoute,
   MyServicesRoute: MyServicesRoute,
   PaymentsRoute: PaymentsRoute,
+  PricingRoute: PricingRoute,
+  ProductsRoute: ProductsRoute,
   RefundsRoute: RefundsRoute,
   ReportsRoute: ReportsRoute,
   SettlementsRoute: SettlementsRouteWithChildren,
@@ -459,3 +543,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
