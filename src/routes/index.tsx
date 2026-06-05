@@ -6,41 +6,69 @@ import {
   Tooltip, XAxis, YAxis, Cell, PieChart, Pie, Legend,
 } from "recharts";
 import { Button } from "@/components/ui/button";
-import { PAYMENTS, SETTLEMENTS, REFUNDS, MERCHANT, inr, downloadCSV } from "@/lib/data/mock";
+import { MERCHANT, inr, downloadCSV } from "@/lib/data/mock";
+import { useStore, isSameDay } from "@/lib/store";
 
 export const Route = createFileRoute("/")({
   head: () => ({ meta: [{ title: "Home — paytmm lite" }] }),
   component: Home,
 });
 
-const RANGES = ["Today, 3 Jun", "Yesterday", "This Week", "This Month", "Custom"];
+const RANGES = ["Today", "Yesterday", "This Week", "This Month", "All"];
+
+function inRange(iso: string, range: string) {
+  const d = new Date(iso);
+  const now = new Date();
+  if (range === "All") return true;
+  if (range === "Today") return isSameDay(iso, now);
+  if (range === "Yesterday") {
+    const y = new Date(now); y.setDate(y.getDate() - 1);
+    return isSameDay(iso, y);
+  }
+  if (range === "This Week") {
+    const start = new Date(now); start.setDate(now.getDate() - 7);
+    return d >= start;
+  }
+  if (range === "This Month") {
+    return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+  }
+  return true;
+}
 
 function Home() {
   const [range, setRange] = useState(RANGES[0]);
+  const payments = useStore((s) => s.payments);
+  const settlements = useStore((s) => s.settlements);
 
   const totals = useMemo(() => {
-    const pay = PAYMENTS.filter((p) => p.status === "Success");
-    const set = SETTLEMENTS.slice(0, 1);
-    const ref = REFUNDS.filter((r) => r.status === "Success");
+    const pay = payments.filter((p) => p.status === "Success" && inRange(p.createdAt, range));
+    const set = settlements.filter((s) => inRange(s.date, range));
     return {
       payAmount: pay.reduce((s, p) => s + p.amount, 0),
       payCount: pay.length,
-      settle: set.reduce((s, p) => s + p.net, 0),
+      settle: set.reduce((s, p) => s + p.amount, 0),
       settleCount: set.length,
-      lastSettle: set[0]?.settledAt,
-      refundAmount: ref.reduce((s, p) => s + p.amount, 0),
-      refundCount: ref.length,
+      lastSettle: settlements[0]?.date ?? null,
+      refundAmount: 0,
+      refundCount: 0,
     };
-  }, []);
+  }, [payments, settlements, range]);
 
   const chartData = useMemo(() => {
-    const days = ["28 May", "29 May", "30 May", "31 May", "01 Jun", "02 Jun", "03 Jun"];
-    return days.map((d, i) => ({
-      day: d,
-      amount: [200, 450, 380, 620, 540, 890, 1020][i],
-      count: [3, 5, 4, 8, 6, 11, 14][i],
-    }));
-  }, []);
+    const days: { day: string; amount: number; count: number }[] = [];
+    const now = new Date();
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(now); d.setDate(now.getDate() - i);
+      const label = d.toLocaleDateString("en-IN", { day: "2-digit", month: "short" });
+      const dayPays = payments.filter((p) => p.status === "Success" && isSameDay(p.createdAt, d));
+      days.push({
+        day: label,
+        amount: dayPays.reduce((s, p) => s + p.amount, 0),
+        count: dayPays.length,
+      });
+    }
+    return days;
+  }, [payments]);
 
   const sources = [
     { name: "UPI", value: 58, amount: 5840, color: "hsl(210 90% 55%)" },
