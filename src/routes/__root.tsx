@@ -96,6 +96,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
+      { rel: "icon", type: "image/png", href: "/__l5e/assets-v1/c305226d-a924-4d0a-a6d7-c2519c5fee6a/paytmm-lite-logo.png" },
     ],
   }),
   shellComponent: RootShell,
