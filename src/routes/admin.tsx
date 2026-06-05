@@ -1,19 +1,35 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/dashboard/PageHeader";
-import { PAYMENTS, SETTLEMENTS, REFUNDS, inr } from "@/lib/data/mock";
+import { inr } from "@/lib/data/mock";
+import { useStore, addPayment } from "@/lib/store";
 import { Shield } from "lucide-react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/admin")({
   component: AdminPanel,
 });
 
 function AdminPanel() {
+  const payments = useStore((s) => s.payments);
+  const settlements = useStore((s) => s.settlements);
+  const [sms, setSms] = useState("");
   const stats = [
-    { l: "Total Transactions", v: PAYMENTS.length },
-    { l: "Total Volume", v: inr(PAYMENTS.reduce((s, p) => s + p.amount, 0)) },
-    { l: "Total Settlements", v: SETTLEMENTS.length },
-    { l: "Total Refunds", v: REFUNDS.length },
+    { l: "Total Transactions", v: payments.length },
+    { l: "Total Volume", v: inr(payments.reduce((s, p) => s + p.amount, 0)) },
+    { l: "Total Settlements", v: settlements.length },
+    { l: "Total Refunds", v: 0 },
   ];
+
+  const ingest = () => {
+    const m = sms.match(/(?:INR|Rs\.?)\s*([\d,]+(?:\.\d{1,2})?)/i);
+    if (!m) { alert("Could not parse an amount from the SMS."); return; }
+    const amount = Math.round(parseFloat(m[1].replace(/,/g, "")));
+    const utrMatch = sms.match(/(?:UTR|Ref(?:\s*no)?\.?)\s*[:#]?\s*(\w{8,})/i);
+    addPayment({ amount, utr: utrMatch ? "UTR" + utrMatch[1] : undefined, smsSource: "SMS Ingest" });
+    setSms("");
+    alert(`Ingested ₹${amount}`);
+  };
   return (
     <div>
       <PageHeader title="Admin Panel">
