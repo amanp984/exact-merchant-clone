@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { createContext, useContext, useState, type ReactNode } from "react";
 
 const VALID_EMAIL = "USER123@GMAIL.COM";
 const VALID_PASS = "USER123";
@@ -13,14 +13,18 @@ type Ctx = {
 
 const AuthCtx = createContext<Ctx | null>(null);
 
+function readStored(): User | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(KEY);
+    return raw ? (JSON.parse(raw) as User) : null;
+  } catch {
+    return null;
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(KEY);
-      if (raw) setUser(JSON.parse(raw));
-    } catch {}
-  }, []);
+  const [user, setUser] = useState<User | null>(() => readStored());
   const login = (email: string, password: string) => {
     if (email.trim().toUpperCase() === VALID_EMAIL && password === VALID_PASS) {
       const u = { email: VALID_EMAIL };
