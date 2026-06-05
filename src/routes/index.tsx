@@ -105,7 +105,7 @@ function Home() {
             to="/settlements"
             label="Settlement"
             amount={inr(totals.settle)}
-            sub={`Last settled at ${new Date(totals.lastSettle!).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" })}, 3rd Jun`}
+            sub={totals.lastSettle ? `Last settled ${new Date(totals.lastSettle).toLocaleString("en-IN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "short" })}` : "No settlements yet"}
             tint="from-emerald-50 to-emerald-50/50"
             icon={<Landmark className="h-5 w-5" />}
             iconBg="bg-emerald-100 text-emerald-600"
