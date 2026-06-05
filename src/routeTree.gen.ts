@@ -15,6 +15,7 @@ import { Route as RefundsRouteImport } from './routes/refunds'
 import { Route as PaymentsRouteImport } from './routes/payments'
 import { Route as MyServicesRouteImport } from './routes/my-services'
 import { Route as MyQrCodeRouteImport } from './routes/my-qr-code'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as InvoicesRouteImport } from './routes/invoices'
 import { Route as DisputesRouteImport } from './routes/disputes'
 import { Route as DeveloperSettingsRouteImport } from './routes/developer-settings'
@@ -56,6 +57,11 @@ const MyServicesRoute = MyServicesRouteImport.update({
 const MyQrCodeRoute = MyQrCodeRouteImport.update({
   id: '/my-qr-code',
   path: '/my-qr-code',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InvoicesRoute = InvoicesRouteImport.update({
@@ -128,6 +134,7 @@ export interface FileRoutesByFullPath {
   '/developer-settings': typeof DeveloperSettingsRoute
   '/disputes': typeof DisputesRoute
   '/invoices': typeof InvoicesRoute
+  '/login': typeof LoginRoute
   '/my-qr-code': typeof MyQrCodeRoute
   '/my-services': typeof MyServicesRoute
   '/payments': typeof PaymentsRoute
@@ -148,6 +155,7 @@ export interface FileRoutesByTo {
   '/developer-settings': typeof DeveloperSettingsRoute
   '/disputes': typeof DisputesRoute
   '/invoices': typeof InvoicesRoute
+  '/login': typeof LoginRoute
   '/my-qr-code': typeof MyQrCodeRoute
   '/my-services': typeof MyServicesRoute
   '/payments': typeof PaymentsRoute
@@ -169,6 +177,7 @@ export interface FileRoutesById {
   '/developer-settings': typeof DeveloperSettingsRoute
   '/disputes': typeof DisputesRoute
   '/invoices': typeof InvoicesRoute
+  '/login': typeof LoginRoute
   '/my-qr-code': typeof MyQrCodeRoute
   '/my-services': typeof MyServicesRoute
   '/payments': typeof PaymentsRoute
@@ -191,6 +200,7 @@ export interface FileRouteTypes {
     | '/developer-settings'
     | '/disputes'
     | '/invoices'
+    | '/login'
     | '/my-qr-code'
     | '/my-services'
     | '/payments'
@@ -211,6 +221,7 @@ export interface FileRouteTypes {
     | '/developer-settings'
     | '/disputes'
     | '/invoices'
+    | '/login'
     | '/my-qr-code'
     | '/my-services'
     | '/payments'
@@ -231,6 +242,7 @@ export interface FileRouteTypes {
     | '/developer-settings'
     | '/disputes'
     | '/invoices'
+    | '/login'
     | '/my-qr-code'
     | '/my-services'
     | '/payments'
@@ -252,6 +264,7 @@ export interface RootRouteChildren {
   DeveloperSettingsRoute: typeof DeveloperSettingsRoute
   DisputesRoute: typeof DisputesRoute
   InvoicesRoute: typeof InvoicesRoute
+  LoginRoute: typeof LoginRoute
   MyQrCodeRoute: typeof MyQrCodeRoute
   MyServicesRoute: typeof MyServicesRoute
   PaymentsRoute: typeof PaymentsRoute
@@ -305,6 +318,13 @@ declare module '@tanstack/react-router' {
       path: '/my-qr-code'
       fullPath: '/my-qr-code'
       preLoaderRoute: typeof MyQrCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/invoices': {
@@ -425,6 +445,7 @@ const rootRouteChildren: RootRouteChildren = {
   DeveloperSettingsRoute: DeveloperSettingsRoute,
   DisputesRoute: DisputesRoute,
   InvoicesRoute: InvoicesRoute,
+  LoginRoute: LoginRoute,
   MyQrCodeRoute: MyQrCodeRoute,
   MyServicesRoute: MyServicesRoute,
   PaymentsRoute: PaymentsRoute,

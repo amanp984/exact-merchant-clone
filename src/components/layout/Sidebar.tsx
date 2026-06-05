@@ -28,8 +28,8 @@ export function Sidebar() {
     exact ? path === to : path === to || path.startsWith(to + "/");
 
   return (
-    <aside className="w-64 shrink-0 border-r-[3px] border-primary/70 bg-sidebar h-[calc(100vh-64px)] sticky top-16 overflow-y-auto hidden md:block">
-      <nav className="py-4 text-sm">
+    <aside className="w-64 shrink-0 border-r border-border bg-sidebar h-[calc(100vh-64px)] sticky top-16 overflow-y-auto hidden md:block">
+      <nav className="py-3 text-[13.5px]">
         <Group label="Dashboard" open={openDash} onToggle={() => setOpenDash(!openDash)}>
           {dashItems.map((it) => (
             <Item key={it.to} {...it} active={isActive(it.to, it.exact)} />
@@ -73,20 +73,21 @@ export function Sidebar() {
   );
 }
 
+type IconType = React.ComponentType<{ className?: string; strokeWidth?: number }>;
 function Group({ label, open, onToggle, children, icon: Icon }: {
-  label: string; open: boolean; onToggle: () => void; children: React.ReactNode; icon?: React.ComponentType<{ className?: string }>;
+  label: string; open: boolean; onToggle: () => void; children: React.ReactNode; icon?: IconType;
 }) {
   return (
-    <div className="mb-1">
+    <div className="mb-0.5">
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between px-5 py-3 text-foreground font-bold text-[15px] hover:text-primary"
+        className="w-full flex items-center justify-between px-5 py-2.5 text-foreground font-semibold text-[14px] hover:text-primary"
       >
-        <span className="flex items-center gap-2">
-          {Icon && <Icon className="h-4 w-4" />}
+        <span className="flex items-center gap-2.5">
+          {Icon && <Icon className="h-[15px] w-[15px]" strokeWidth={1.75} />}
           {label}
         </span>
-        <ChevronDown className={cn("h-4 w-4 transition-transform", open && "rotate-180")} />
+        <ChevronDown className={cn("h-3.5 w-3.5 text-muted-foreground transition-transform", open && "rotate-180")} />
       </button>
       {open && <div className="mt-1">{children}</div>}
     </div>
@@ -94,35 +95,35 @@ function Group({ label, open, onToggle, children, icon: Icon }: {
 }
 
 function NestedGroup({ label, icon: Icon, open, onToggle, active, children }: {
-  label: string; icon: React.ComponentType<{ className?: string }>; open: boolean; onToggle: () => void; active: boolean; children: React.ReactNode;
+  label: string; icon: IconType; open: boolean; onToggle: () => void; active: boolean; children: React.ReactNode;
 }) {
   return (
     <div>
       <button
         onClick={onToggle}
         className={cn(
-          "w-full flex items-center justify-between pl-7 pr-4 py-2.5 text-sm transition-colors border-l-[3px]",
-          active ? "border-primary text-primary" : "border-transparent text-sidebar-foreground hover:bg-muted/60"
+          "w-full flex items-center justify-between pl-7 pr-4 py-2 text-[13.5px] font-normal transition-colors border-l-[3px]",
+          active ? "border-primary text-primary" : "border-transparent text-sidebar-foreground hover:bg-muted/50"
         )}
       >
         <span className="flex items-center gap-3">
-          <Icon className="h-4 w-4" />
+          <Icon className="h-[15px] w-[15px]" strokeWidth={1.75} />
           {label}
         </span>
-        <ChevronDown className={cn("h-4 w-4 transition-transform", open && "rotate-180")} />
+        <ChevronDown className={cn("h-3.5 w-3.5 text-muted-foreground transition-transform", open && "rotate-180")} />
       </button>
       {open && <div>{children}</div>}
     </div>
   );
 }
 
-function SubItem({ to, icon: Icon, label, active }: { to: string; icon: React.ComponentType<{ className?: string }>; label: string; active: boolean }) {
+function SubItem({ to, icon: Icon, label, active }: { to: string; icon: IconType; label: string; active: boolean }) {
   return (
     <Link
       to={to}
       className={cn(
-        "flex items-center gap-3 pl-12 pr-4 py-2 text-sm transition-colors border-l-[3px]",
-        active ? "border-primary bg-accent text-primary font-medium" : "border-transparent text-sidebar-foreground hover:bg-muted/60"
+        "flex items-center gap-3 pl-12 pr-4 py-2 text-[13px] font-normal transition-colors border-l-[3px]",
+        active ? "border-primary bg-accent text-primary font-medium" : "border-transparent text-sidebar-foreground hover:bg-muted/50"
       )}
     >
       <Icon className="h-3.5 w-3.5" />
@@ -131,33 +132,33 @@ function SubItem({ to, icon: Icon, label, active }: { to: string; icon: React.Co
   );
 }
 
-function Item({ to, label, icon: Icon, active }: { to: string; label: string; icon: React.ComponentType<{ className?: string }>; active: boolean }) {
+function Item({ to, label, icon: Icon, active }: { to: string; label: string; icon: IconType; active: boolean }) {
   return (
     <Link
       to={to}
       className={cn(
-        "flex items-center gap-3 pl-7 pr-4 py-2.5 text-sm transition-colors border-l-[3px]",
+        "flex items-center gap-3 pl-7 pr-4 py-2 text-[13.5px] font-normal transition-colors border-l-[3px]",
         active
           ? "border-primary bg-accent text-primary font-medium"
-          : "border-transparent text-sidebar-foreground hover:bg-muted/60"
+          : "border-transparent text-sidebar-foreground hover:bg-muted/50"
       )}
     >
-      <Icon className="h-4 w-4" />
+      <Icon className="h-[15px] w-[15px]" strokeWidth={1.75} />
       <span>{label}</span>
     </Link>
   );
 }
 
-function SimpleLink({ to, icon: Icon, label, active }: { to: string; icon: React.ComponentType<{ className?: string }>; label: string; active: boolean }) {
+function SimpleLink({ to, icon: Icon, label, active }: { to: string; icon: IconType; label: string; active: boolean }) {
   return (
     <Link
       to={to}
       className={cn(
-        "flex items-center gap-2 px-5 py-3 text-[15px] font-bold transition-colors",
+        "flex items-center gap-2.5 px-5 py-2.5 text-[14px] font-semibold transition-colors",
         active ? "text-primary" : "text-foreground hover:text-primary"
       )}
     >
-      <Icon className="h-4 w-4" />
+      <Icon className="h-[15px] w-[15px]" strokeWidth={1.75} />
       {label}
     </Link>
   );
