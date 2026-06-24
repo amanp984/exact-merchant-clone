@@ -17,6 +17,8 @@ type ParsedSms = {
   timestamp: string | null;
 };
 
+type SupabaseAdminClient = typeof import("@/integrations/supabase/client.server").supabaseAdmin;
+
 const jsonHeaders = {
   "Content-Type": "application/json",
   "Access-Control-Allow-Origin": "*",
@@ -361,7 +363,7 @@ function randomHex(length: number) {
   return Array.from(values, (value) => value.toString(16).padStart(2, "0")).join("").slice(0, length);
 }
 
-async function generateUniqueTransactionId(supabaseAdmin: Awaited<ReturnType<typeof import("@/integrations/supabase/client.server")>>["supabaseAdmin"]) {
+async function generateUniqueTransactionId(supabaseAdmin: SupabaseAdminClient) {
   for (let attempt = 0; attempt < 5; attempt += 1) {
     const id = `2026${Date.now()}${randomDigits(16)}`.slice(0, 35);
     const { data } = await supabaseAdmin.from("transactions").select("id").eq("transaction_id", id).maybeSingle();
@@ -370,7 +372,7 @@ async function generateUniqueTransactionId(supabaseAdmin: Awaited<ReturnType<typ
   return `${Date.now()}${randomDigits(22)}`;
 }
 
-async function generateUniqueOrderId(supabaseAdmin: Awaited<ReturnType<typeof import("@/integrations/supabase/client.server")>>["supabaseAdmin"]) {
+async function generateUniqueOrderId(supabaseAdmin: SupabaseAdminClient) {
   for (let attempt = 0; attempt < 5; attempt += 1) {
     const id = `PTM${randomHex(32)}`;
     const { data } = await supabaseAdmin.from("transactions").select("id").eq("order_id", id).maybeSingle();
@@ -380,7 +382,7 @@ async function generateUniqueOrderId(supabaseAdmin: Awaited<ReturnType<typeof im
 }
 
 async function writeSmsLog(
-  supabaseAdmin: Awaited<ReturnType<typeof import("@/integrations/supabase/client.server")>>["supabaseAdmin"],
+  supabaseAdmin: SupabaseAdminClient,
   row: {
     sender: string | null;
     message: string;
