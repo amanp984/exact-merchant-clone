@@ -31,6 +31,7 @@ import { Route as SettlementsIdRouteImport } from './routes/settlements.$id'
 import { Route as SettingsUsersRouteImport } from './routes/settings.users'
 import { Route as SettingsProfileRouteImport } from './routes/settings.profile'
 import { Route as SettingsDashboardRouteImport } from './routes/settings.dashboard'
+import { Route as ApiSmsRouteImport } from './routes/api/sms'
 import { Route as SettingsDashboardNotificationsRouteImport } from './routes/settings.dashboard.notifications'
 
 const SettlementsRoute = SettlementsRouteImport.update({
@@ -143,6 +144,11 @@ const SettingsDashboardRoute = SettingsDashboardRouteImport.update({
   path: '/settings/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiSmsRoute = ApiSmsRouteImport.update({
+  id: '/api/sms',
+  path: '/api/sms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SettingsDashboardNotificationsRoute =
   SettingsDashboardNotificationsRouteImport.update({
     id: '/notifications',
@@ -169,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/refunds': typeof RefundsRoute
   '/reports': typeof ReportsRoute
   '/settlements': typeof SettlementsRouteWithChildren
+  '/api/sms': typeof ApiSmsRoute
   '/settings/dashboard': typeof SettingsDashboardRouteWithChildren
   '/settings/profile': typeof SettingsProfileRoute
   '/settings/users': typeof SettingsUsersRoute
@@ -194,6 +201,7 @@ export interface FileRoutesByTo {
   '/refunds': typeof RefundsRoute
   '/reports': typeof ReportsRoute
   '/settlements': typeof SettlementsRouteWithChildren
+  '/api/sms': typeof ApiSmsRoute
   '/settings/dashboard': typeof SettingsDashboardRouteWithChildren
   '/settings/profile': typeof SettingsProfileRoute
   '/settings/users': typeof SettingsUsersRoute
@@ -220,6 +228,7 @@ export interface FileRoutesById {
   '/refunds': typeof RefundsRoute
   '/reports': typeof ReportsRoute
   '/settlements': typeof SettlementsRouteWithChildren
+  '/api/sms': typeof ApiSmsRoute
   '/settings/dashboard': typeof SettingsDashboardRouteWithChildren
   '/settings/profile': typeof SettingsProfileRoute
   '/settings/users': typeof SettingsUsersRoute
@@ -247,6 +256,7 @@ export interface FileRouteTypes {
     | '/refunds'
     | '/reports'
     | '/settlements'
+    | '/api/sms'
     | '/settings/dashboard'
     | '/settings/profile'
     | '/settings/users'
@@ -272,6 +282,7 @@ export interface FileRouteTypes {
     | '/refunds'
     | '/reports'
     | '/settlements'
+    | '/api/sms'
     | '/settings/dashboard'
     | '/settings/profile'
     | '/settings/users'
@@ -297,6 +308,7 @@ export interface FileRouteTypes {
     | '/refunds'
     | '/reports'
     | '/settlements'
+    | '/api/sms'
     | '/settings/dashboard'
     | '/settings/profile'
     | '/settings/users'
@@ -323,6 +335,7 @@ export interface RootRouteChildren {
   RefundsRoute: typeof RefundsRoute
   ReportsRoute: typeof ReportsRoute
   SettlementsRoute: typeof SettlementsRouteWithChildren
+  ApiSmsRoute: typeof ApiSmsRoute
   SettingsDashboardRoute: typeof SettingsDashboardRouteWithChildren
   SettingsProfileRoute: typeof SettingsProfileRoute
   SettingsUsersRoute: typeof SettingsUsersRoute
@@ -484,6 +497,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsDashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/sms': {
+      id: '/api/sms'
+      path: '/api/sms'
+      fullPath: '/api/sms'
+      preLoaderRoute: typeof ApiSmsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/settings/dashboard/notifications': {
       id: '/settings/dashboard/notifications'
       path: '/notifications'
@@ -536,6 +556,7 @@ const rootRouteChildren: RootRouteChildren = {
   RefundsRoute: RefundsRoute,
   ReportsRoute: ReportsRoute,
   SettlementsRoute: SettlementsRouteWithChildren,
+  ApiSmsRoute: ApiSmsRoute,
   SettingsDashboardRoute: SettingsDashboardRouteWithChildren,
   SettingsProfileRoute: SettingsProfileRoute,
   SettingsUsersRoute: SettingsUsersRoute,
@@ -543,13 +564,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
