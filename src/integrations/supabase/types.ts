@@ -14,7 +14,102 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      sms_logs: {
+        Row: {
+          created_at: string
+          id: string
+          message: string
+          processing_status: string
+          received_at: string | null
+          sender: string | null
+          utr: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message: string
+          processing_status: string
+          received_at?: string | null
+          sender?: string | null
+          utr?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string
+          processing_status?: string
+          received_at?: string | null
+          sender?: string | null
+          utr?: string | null
+        }
+        Relationships: []
+      }
+      transactions: {
+        Row: {
+          amount: number
+          balance: number | null
+          bank_name: string | null
+          created_at: string
+          customer_name: string | null
+          id: string
+          message: string
+          order_id: string
+          refund_amount: number | null
+          refund_remark: string | null
+          refund_status: string
+          refund_timestamp: string | null
+          sms_timestamp: string | null
+          status: string
+          transaction_id: string
+          type: string
+          updated_at: string
+          upi_id: string | null
+          utr: string
+        }
+        Insert: {
+          amount: number
+          balance?: number | null
+          bank_name?: string | null
+          created_at?: string
+          customer_name?: string | null
+          id?: string
+          message: string
+          order_id: string
+          refund_amount?: number | null
+          refund_remark?: string | null
+          refund_status?: string
+          refund_timestamp?: string | null
+          sms_timestamp?: string | null
+          status?: string
+          transaction_id: string
+          type: string
+          updated_at?: string
+          upi_id?: string | null
+          utr: string
+        }
+        Update: {
+          amount?: number
+          balance?: number | null
+          bank_name?: string | null
+          created_at?: string
+          customer_name?: string | null
+          id?: string
+          message?: string
+          order_id?: string
+          refund_amount?: number | null
+          refund_remark?: string | null
+          refund_status?: string
+          refund_timestamp?: string | null
+          sms_timestamp?: string | null
+          status?: string
+          transaction_id?: string
+          type?: string
+          updated_at?: string
+          upi_id?: string | null
+          utr?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
